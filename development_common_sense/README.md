@@ -1,4 +1,4 @@
-## 1) 좋은 코드란 무엇인가
+## 📌 좋은 코드란 무엇인가
 ### 1-1) 읽기 쉬운 코드
 **왜 읽기가 쉬워야 할까?**<br>
 개발을 할 때는 주로 혼자 하지 않고 팀으로 개발을 할 것이다.<br>
@@ -20,3 +20,119 @@
 
 ### 1-5) 등등..
 참고 링크 : https://jbee.io/etc/what-is-good-code/
+
+</br>
+
+## 📌 RESTful API
+### 1. RESTful API 란?
+`REST(REpresentational State Transfer)` 란<br>
+자원을 `URI` 로 표시하고 해당 자원의 상태(State)를 주고 받는 것을 의미한다.<br>
+즉, `RESTful API` 란 REST 기반의 규칙들을 지켜서 설계된, <br>
+API설계의 중심에 자원(Resouce)이 있고 HTTP Method를 통해 자원을 처리하도록 설계한 API 이다.
+
+<br>
+
+### 2. REST의 구성 요소
+- 자원(Resource) : URI
+- 행위(Verb) : HTTP Method
+- 표현(Representations)
+
+**`REST`는 `URI`를 통해 자원을 표시하고, `HTTP Method`를 이용하여 해당 자원의 행위를 정해주며 그 결과를 받는 것을 말한다.**
+
+<br>
+
+### 3. REST 특징
+1. **Uniform (유니폼 인터페이스)**<br>
+Uniform Interface는 URI로 지정한 리소스에 대한 조작을 통일되고 한정적인 인터페이스로 수행하는 아키텍처 스타일을 말한다.
+
+2. **Stateless (무상태성)**<br>
+**작업을 위한 상태정보를 따로 저장하고 관리하지 않는다.**<br>
+세션 정보나 쿠키정보를 별도로 저장하고 관리하지 않기 때문에 **API 서버는 들어오는 요청만 단순히 처리하면 된다.**<br>
+서버는 각각의 요청을 완전히 다른 것으로 인식하고 처리를 한다.
+때문에 서비스의 자유도가 높아지고 서버에서 불필요한 정보를 관리하지 않음으로써 구현이 단순해진다.
+
+3. **Cacheable (캐시 기능)**<br>
+HTTP의 기존 웹 표준을 그대로 사용하기 때문에 **HTTP가 가진 캐싱 기능 적용이 가능하다.**
+
+4. **Self-descriptiveness(자체 표현 구조)**<br>
+**REST API 메시지만 보고도 이를 쉽게 이해 할 수 있는** 자체 표현 구조로 되어 있다는 것입니다.
+
+5. **Client-Server 구조**<br>
+**Rest 서버는 API 제공**을 하고 **클라이언트는 사용자 인증에 관련된 일들을 직접 관리**한다.
+자원이 있는 쪽을 Server라고 하고 자원을 요청하는 쪽이 Client가 된다.
+**서로간의 의존성이 줄어들기 때문에** 역할이 확실하게 구분되어 개발해야 할 내용들이 명확해진다.
+
+6. **계층형 구조**<br>
+클라이언트는 Rest API 서버만 호출한다.
+REST 서버는 다중 계층으로 구성될 수 있으면 로드 밸런싱, 암호화, 사용자 인증 등을 추가하여 구조상의 유연성을 둘 수 있다.
+
+<br>
+
+### 4. REST API 디자인
+REST API 설계 시 가장 중요한 항목은 다음의 2가지로 요약할 수 있다. **(이 두가지는 꼭 기억하자)**
+
+1. **URI는 정보의 자원을 표현해야 한다.**
+2. **자원에 대한 행위는 HTTP Method(GET, POST, PUT, DELETE)로 표현한다.<br>
+`GET`        :** 정보 가져오기<br>
+**`POST`      :** 정보 생성하기<br>
+**`PUT`        :** 정보 업데이트<br>
+**`DELETE` :** 정보 삭제하기
+
+<br>
+
+### 5. REST API 설계 규칙
+
+- **URI는 정보의 자원을 표현해야 한다.**<br>
+URI는 자원을 표현하는데 중점을 두어야 한다. (URI에 delete, create, show ,,, 등을 넣는 건 좋지 않다.)
+```python
+# 나쁜코드
+GET courses/show/1
+
+# 좋은코드
+GET courses/1
+```
+
+- **자원에 대한 행위는 HTTP Method(GET, POST, PUT, DELETE)로 표현한다.**<br>
+URI에 자원의 행위에 대한 표현이 들어가지 않는 대신 HTTP Method를 통해 대신한다.
+```python
+GET courses/1        # 1번 course 가져오기
+POST courses         # course 생성
+DELETE courses/1     # 1번 course 삭제
+```
+
+- **슬래시(/) 는 계층관계를 나타내는데 사용한다.**<br>
+```python
+http://test.com/courses/teacher
+```
+
+- **URI 마지막은 슬래시(/)를 사용하면 안 된다.**<br>
+```python
+http://test.com/courses/teacher/ [x]
+http://test.com/courses/teacher  [o]
+```
+
+- **하이픈(-) 은 URI 가독성을 높이는데 사용한다.**<br>
+URI를 쉽게 읽고 해석하기 위해,  불가피하게 긴 URI경로를 사용하게 된다면 하이픈(-)을 사용해 가독성을 높일 수 있다.
+
+- **언더바(_) 는 URI에 사용하지 않는다.**<br>
+밑줄은 보기 어렵거나 밑줄 때문에 문자가 가려지기도 한다.
+그렇기 때문에 언더바(_) 대신 하이픈(-) 을 사용한다.
+- **URI 는 소문자를 사용한다.**<br>
+대소문자에 따라 다른 리소스로 인식하게 된다.
+- **파일 확장자는 URI 에 포함하지 않는다.**<br>
+```python
+http://test.com/courses/teacher.png [x]
+```
+
+<br>
+
+### 6. RESTful API 장점
+1. Open API를 제공하기 쉽다.
+2. 멀티플랫폼 지원 및 연동이 용이하다.
+3. 원하는 타입으로 데이터를 주고 받을 수 있다.
+4. 기존 웹 인프라(HTTP)를 그대로 사용할 수 있다.
+
+### 7. RESTful API 단점
+1. 사용할 수 있는 메소드가 4가지 밖에 없다.
+2. 분산환경에는 부적합하다
+3. HTTP 통신 모델에 대해서만 지원한다.
